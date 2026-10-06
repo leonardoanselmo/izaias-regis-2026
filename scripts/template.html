@@ -90,6 +90,7 @@ th button{all:unset;cursor:pointer}
 th button::after{content:" ↕";color:var(--muted);font-size:11px}
 td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
 tr:last-child td{border-bottom:0}
+#tSec{min-width:1040px}#tSec th,#tSec td{white-space:nowrap}#tSec td:nth-child(4){white-space:normal;min-width:220px}
 details summary{cursor:pointer;color:var(--accent-ink);font-weight:500;font-size:14px}
 details[open] summary{margin-bottom:12px}
 .cut{border-top:2px dashed var(--down);margin:6px 0 4px;position:relative}
@@ -113,7 +114,7 @@ footer a{color:var(--accent-ink)}
     <div class="kpi"><span>Votos em Pernambuco</span><b>11.673</b><small>0,22% dos válidos · 62º lugar</small></div>
     <div class="kpi"><span>Vieram de Garanhuns</span><b>71,9%</b><small>8.397 votos, 11,65% da cidade</small></div>
     <div class="kpi"><span>Em 2022 (dep. estadual)</span><b>27.104</b><small>−57% de um pleito para o outro</small></div>
-    <div class="kpi"><span>Faltaram para se eleger</span><b>≈86.900</b><small>estimativa, ver seção 5</small></div>
+    <div class="kpi"><span>Faltaram para se eleger</span><b>≈86.900</b><small>estimativa, ver seção 6</small></div>
   </div>
 </header>
 
@@ -172,14 +173,31 @@ footer a{color:var(--accent-ink)}
     <div class="panel" style="display:flex;flex-direction:column;gap:10px">
       <h3>Por bairro do local de votação</h3>
       <div class="bars" id="garBairro"></div>
-      <p class="note">Ao lado de cada barra: votos e o percentual dos válidos no bairro. Heliópolis concentra 38% dos votos dele na cidade.</p>
+      <p class="note">Ao lado de cada barra: votos e o percentual dos válidos no bairro. <span id="garMaior"></span></p>
     </div>
   </div>
   <div class="tbl-wrap" style="max-height:520px;overflow:auto"><table id="tLoc"></table></div>
 </section>
 
+<section id="secoes">
+  <div class="sec-head"><div class="eyebrow">5 · Por seção eleitoral</div><h2 id="secTitulo">Votos em cada seção eleitoral</h2>
+  <p>Seções agregadas não têm resultado próprio: os eleitores delas votam na urna da seção principal, e o TSE publica os votos só na principal. Por isso as agregadas não aparecem como linhas separadas. A principal que recebe agregadas aparece marcada como <b>consolidada</b>, e o número de eleitores aptos dela já soma os das agregadas.</p></div>
+  <div class="panel" style="display:flex;flex-direction:column;gap:12px">
+    <div class="controls">
+      <label for="secMun" class="note" style="color:var(--ink2)">Município</label>
+      <select id="secMun" style="font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);max-width:100%"></select>
+      <input id="secBusca" type="search" placeholder="Buscar local, bairro ou seção" style="font:inherit;font-size:13px;padding:5px 10px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);flex:1;min-width:0;max-width:320px">
+      <label class="note" style="display:inline-flex;gap:6px;align-items:center;color:var(--ink2)"><input type="checkbox" id="secCons"> Só consolidadas</label>
+    </div>
+    <p class="note" id="secResumo" style="color:var(--ink2)"></p>
+    <div class="tbl-wrap" style="max-height:620px;overflow:auto"><table id="tSec"></table></div>
+    <div class="controls"><button id="secMais" style="font:inherit;font-size:13px;border:1px solid var(--line);background:var(--paper);color:var(--accent-ink);border-radius:8px;padding:6px 12px;cursor:pointer">Mostrar mais</button>
+    <a class="note" href="https://github.com/leonardoanselmo/izaias-regis-2026/blob/main/dados/izaias_regis_5567_por_secao.csv" style="color:var(--accent-ink)">Planilha com todas as 21.418 seções de PE (CSV)</a></div>
+  </div>
+</section>
+
 <section id="psd">
-  <div class="sec-head"><div class="eyebrow">5 · Quanto faltou</div><h2>7º colocado na lista do PSD, que deve ficar com 2 vagas</h2>
+  <div class="sec-head"><div class="eyebrow">6 · Quanto faltou</div><h2>7º colocado na lista do PSD, que deve ficar com 2 vagas</h2>
   <p>O TSE ainda não marcou os eleitos (a totalização está em reprocessamento). Recalculei a distribuição das 25 vagas com o quociente eleitoral do TSE (210.580) e as regras de sobras: partido com 80% do quociente e candidato com 20%. Pelo cálculo, o PSD fica com 2 cadeiras. Para ser eleito, Izaias precisaria de cerca de 86.900 votos a mais, o suficiente para passar Guilherme Uchoa Junior (98.569). Para o PSD conquistar uma 3ª cadeira, o partido precisaria de cerca de 87.700 votos a mais no total.</p></div>
   <div class="grid2">
     <div class="panel" style="display:flex;flex-direction:column;gap:6px">
@@ -289,7 +307,36 @@ const short=n=>{const p=n.split(' ');const suf=['NETO','FILHO','JUNIOR','JÚNIOR
 bars($('garTop'),G.top.map(t=>({lb:short(t.nm)+' '+t.n,v:t.v,x:pct(t.p),hl:t.n==='5567',dim:t.n!=='5567'})));
 $('garNote').textContent='Válidos para deputado federal na cidade: '+fmt(G.validos)+'. Brancos: '+fmt(G.brancos)+'. Nulos: '+fmt(G.nulos)+'.';
 bars($('garBairro'),G.bairros.map(b=>({lb:title(b[0]),v:b[1],x:pct(b[3])})));
+const hb=G.bairros[0];$('garMaior').textContent=title(hb[0])+' concentra '+(100*hb[1]/G.locais.reduce((s,l)=>s+l.votos,0)).toFixed(1).replace('.',',')+'% dos votos dele na cidade.';
 table($('tLoc'),[{t:'Local de votação',f:title},{t:'Bairro',f:title},{t:'Seções',n:1},{t:'Votos Izaias',n:1,f:fmt},{t:'Válidos',n:1,f:fmt},{t:'% válidos',n:1,f:pct}],G.locais.map(l=>[l.local,l.bairro,l.secoes,l.votos,l.validos,l.pct]),3);
+
+/* secoes */
+(function(){
+  const S=D.secoes, mun=[...new Set(S.map(s=>s[0]))].sort((a,b)=>a.localeCompare(b,'pt'));
+  const sel=$('secMun');
+  sel.innerHTML='<option value="">Todos ('+S.length+' seções com voto)</option>'+mun.map(m=>'<option value="'+m+'">'+title(m)+' ('+S.filter(s=>s[0]===m).length+')</option>').join('');
+  sel.value='GARANHUNS';
+  const nCons=S.filter(s=>s[9]).length;
+  $('secTitulo').textContent='Izaias teve voto em '+fmt(S.length)+' seções eleitorais; '+nCons+' delas são consolidadas';
+  const cols=[{t:'Município',f:title},{t:'Zona',n:1},{t:'Seção',n:1},{t:'Local de votação',f:title},{t:'Bairro',f:title},{t:'Aptos',n:1,f:fmt},{t:'Votos Izaias',n:1,f:fmt},{t:'Válidos',n:1,f:fmt},{t:'% válidos',n:1,f:pct},{t:'Situação',f:v=>v?'<span class="chip" title="Inclui os eleitores das seções agregadas '+v+'">consolidada: '+v.split(' ').join(', ')+'</span>':'<span class="note">própria</span>'}];
+  let lim=100,si=6,sd=true;
+  function rows(){
+    const m=sel.value,q=$('secBusca').value.trim().toLowerCase(),c=$('secCons').checked;
+    return S.filter(s=>(!m||s[0]===m)&&(!c||s[9])&&(!q||(s[3]+' '+s[4]+' '+s[2]+' '+s[0]).toLowerCase().includes(q)));
+  }
+  function render(){
+    const r=rows().sort((a,b)=>{const x=a[si],y=b[si];return (typeof x==='number'?x-y:String(x).localeCompare(String(y),'pt'))*(sd?-1:1)});
+    const tot=r.reduce((s,x)=>s+x[6],0);
+    $('secResumo').textContent=fmt(r.length)+' seções · '+fmt(tot)+(tot===1?' voto':' votos')+(r.length>lim?' · mostrando as primeiras '+lim:'');
+    $('tSec').innerHTML='<thead><tr>'+cols.map((c,i)=>'<th class="'+(c.n?'n':'')+'" aria-sort="'+(i===si?(sd?'descending':'ascending'):'none')+'"><button data-i="'+i+'">'+c.t+'</button></th>').join('')+'</tr></thead><tbody>'+
+      r.slice(0,lim).map(s=>'<tr>'+cols.map((c,i)=>'<td class="'+(c.n?'n':'')+'">'+(c.f?c.f(s[i]):s[i])+'</td>').join('')+'</tr>').join('')+'</tbody>';
+    $('tSec').querySelectorAll('th button').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(i===si)sd=!sd;else{si=i;sd=!!cols[i].n}render()});
+    $('secMais').hidden=r.length<=lim;
+  }
+  sel.onchange=()=>{lim=100;render()};$('secBusca').oninput=()=>{lim=100;render()};$('secCons').onchange=()=>{lim=100;render()};
+  $('secMais').onclick=()=>{lim+=200;render()};
+  render();
+})();
 
 /* psd */
 const P=D.psd;

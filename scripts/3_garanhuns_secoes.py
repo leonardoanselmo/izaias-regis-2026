@@ -25,7 +25,10 @@ secao_zip = baixar(f'{CDN}/votacao_secao/votacao_secao_2026_PE.zip', BRUTOS / 'v
 locais_zip = baixar(f'{CDN}/eleitorado_locais_votacao/eleitorado_local_votacao_2026.zip', BRUTOS / 'eleitorado_local_votacao_2026.zip')
 
 fed = [r for r in linhas_do_municipio(secao_zip, 'votacao_secao_2026_PE.csv') if r['CD_CARGO'] == '6']
-locais = {r['NR_LOCAL_VOTACAO']: r for r in linhas_do_municipio(locais_zip, 'eleitorado_local_votacao_2026_PE.csv')}
+# cadastro do 1º turno, por seção: o arquivo de locais repete cada seção para o 2º turno, e o
+# mesmo código de local pode apontar para outro prédio/bairro no 2º turno
+cadastro = {(r['NR_ZONA'], r['NR_SECAO']): r for r in linhas_do_municipio(locais_zip, 'eleitorado_local_votacao_2026_PE.csv')
+            if r['NR_TURNO'] == '1'}
 
 # ranking na cidade (95 = branco, 96 = nulo; números de 4 dígitos = candidatos)
 tot, nomes = C.Counter(), {}
@@ -36,23 +39,22 @@ validos = sum(v for k, v in tot.items() if k not in ('95', '96'))
 nominais = sorted(((v, k, nomes[k]) for k, v in tot.items() if len(k) == 4), reverse=True)
 print(f'válidos {validos}, brancos {tot["95"]}, nulos {tot["96"]}, candidato {tot[CANDIDATO]}')
 
-# por local de votação
-por_local = C.defaultdict(lambda: {'votos': 0, 'validos': 0, 'secoes': set(), 'nome': ''})
+# por local de votação (local e bairro do cadastro do 1º turno, ligados pela seção)
+por_local = C.defaultdict(lambda: {'votos': 0, 'validos': 0, 'secoes': set(), 'nome': '', 'bairro': '', 'lat': '', 'lon': ''})
 for r in fed:
-    x = por_local[r['NR_LOCAL_VOTACAO']]
-    x['nome'] = r['NM_LOCAL_VOTACAO']
+    cad = cadastro[(r['NR_ZONA'], r['NR_SECAO'])]
+    x = por_local[cad['NR_LOCAL_VOTACAO']]
+    x.update(nome=cad['NM_LOCAL_VOTACAO'], bairro=cad['NM_BAIRRO'], lat=cad['NR_LATITUDE'], lon=cad['NR_LONGITUDE'])
     x['secoes'].add(r['NR_SECAO'])
     if r['NR_VOTAVEL'] not in ('95', '96'):
         x['validos'] += int(r['QT_VOTOS'])
     if r['NR_VOTAVEL'] == CANDIDATO:
         x['votos'] += int(r['QT_VOTOS'])
 
-saida_locais = []
-for nr, x in por_local.items():
-    loc = locais.get(nr, {})
-    saida_locais.append(dict(local=x['nome'], bairro=loc.get('NM_BAIRRO', ''), lat=loc.get('NR_LATITUDE', ''),
-                             lon=loc.get('NR_LONGITUDE', ''), secoes=len(x['secoes']), votos=x['votos'],
-                             validos=x['validos'], pct=round(100 * x['votos'] / x['validos'], 2) if x['validos'] else 0))
+saida_locais = [dict(local=x['nome'], bairro=x['bairro'], lat=x['lat'], lon=x['lon'], secoes=len(x['secoes']),
+                     votos=x['votos'], validos=x['validos'],
+                     pct=round(100 * x['votos'] / x['validos'], 2) if x['validos'] else 0)
+                for x in por_local.values()]
 saida_locais.sort(key=lambda x: -x['votos'])
 
 por_bairro = C.defaultdict(lambda: [0, 0])

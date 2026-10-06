@@ -22,6 +22,7 @@ relatorio = dict(
     psdTot=int(psd['tvtn']) + int(psd['tvtl']),
     seats=sorted([dict(nm=x['com'], v=x['v'], s=x['s']) for x in ler_json('cadeiras.json') if x['s'] > 0], key=lambda x: -x['v']),
     comp=ler_json('comparacao_2022.json'),
+    secoes=ler_json('secoes.json'),
     gar=dict(validos=gar['validos'], brancos=gar['brancos'], nulos=gar['nulos'], top=gar['top'][:10], bairros=gar['bairros'],
              locais=[{k: v for k, v in l.items() if k not in ('lat', 'lon')} for l in gar['locais']]),
 )

@@ -171,7 +171,7 @@ yy = text(M + 10, y - 6, warn, 'R', 8.5, WARNINK, CW - 20, 12); y = yy - 14
 K = [('Votos em Pernambuco', '11.673', '0,22% dos válidos · 62º lugar', 'Total de votos nominais de Izaias Regis no estado: 11.673 (0,22% dos válidos), 62º colocado entre todos os candidatos.'),
      ('Vieram de Garanhuns', '71,9%', '8.397 votos, 11,65% da cidade', 'Garanhuns deu 8.397 dos 11.673 votos (71,9%). Na cidade, ele teve 11,65% dos votos válidos para deputado federal.'),
      ('Em 2022 (dep. estadual)', '27.104', '-57% de um pleito para o outro', 'Em 2022 foi eleito deputado estadual pelo PSDB (45678) com 27.104 votos. Em 2026 teve 11.673, queda de 57%.'),
-     ('Faltaram para se eleger', '~86.900', 'estimativa, ver página 7', 'Estimativa: o PSD deve ficar com 2 vagas. O último eleito estimado do partido, Guilherme Uchoa Junior, teve 98.569 votos, 86.896 a mais que Izaias.')]
+     ('Faltaram para se eleger', '~86.900', 'estimativa, ver página 8', 'Estimativa: o PSD deve ficar com 2 vagas. O último eleito estimado do partido, Guilherme Uchoa Junior, teve 98.569 votos, 86.896 a mais que Izaias.')]
 kw = (CW - 3 * 8) / 4
 for i, (a, b, s, t) in enumerate(K):
     x = M + i * (kw + 8)
@@ -275,7 +275,8 @@ text(M, y, 'Votos de Izaias por bairro do local de votação', 'B', 10); y -= 16
 it = [dict(lb=title(b[0]), v=b[1], x=pct(b[3]) + ' dos válidos',
            tip=f"Bairro {title(b[0])}: {fmt(b[1])} votos de Izaias, {pct(b[3])} dos {fmt(b[2])} válidos, {pct(b[1] / 8397 * 100)} dos votos dele na cidade") for b in G['bairros']]
 y = bars(M, y, CW, it, row=14, lw=170, fs=8.5)
-text(M, y - 2, 'Heliópolis concentra 38% dos votos dele na cidade.', 'R', 7.5, MUTED)
+hb = G['bairros'][0]
+text(M, y - 2, f"{title(hb[0])} concentra {pct(100 * hb[1] / sum(l['votos'] for l in G['locais']))} dos votos dele na cidade.", 'R', 7.5, MUTED)
 footer(); c.showPage()
 
 # ================= PÁGINA 6: locais =================
@@ -301,9 +302,36 @@ for i, l in enumerate(G['locais']):
     y -= 13.2
 footer(); c.showPage()
 
-# ================= PÁGINA 7: PSD =================
+# ================= PÁGINA 7: seções =================
+S = D['secoes']
 y = H - 50
-y = head(y, '5 · Quanto faltou', '7º colocado na lista do PSD, que deve ficar com 2 vagas',
+y = head(y, '5 · Por seção eleitoral', f"Voto em {fmt(len(S))} seções; as 45 com mais votos",
+         f"Seções agregadas não têm resultado próprio: os eleitores delas votam na urna da seção principal e o TSE publica os votos só na principal. A principal que recebe agregadas aparece como consolidada, com os eleitores aptos já somados. {sum(1 for s in S if s[9])} das seções com voto são consolidadas. A lista completa está no site e em dados/izaias_regis_5567_por_secao.csv.")
+y = hint(y) - 6
+cols = [('Município', 0, 100), ('Zona', 100, 26), ('Seção', 126, 32), ('Local de votação', 168, 196), ('Aptos', 364, 40), ('Votos', 404, 40), ('Válidos', 444, 40), ('% válidos', 484, CW - 484)]
+NUM = {'Zona', 'Seção', 'Aptos', 'Votos', 'Válidos', '% válidos'}
+c.setFont('SB', 7.6); c.setFillColor(INK2)
+for nm, x, w in cols:
+    (c.drawRightString if nm in NUM else c.drawString)(M + x + (w if nm in NUM else 0), y, nm)
+y -= 5; c.setStrokeColor(INK); c.setLineWidth(0.8); c.line(M, y, W - M, y); y -= 11
+for i, s in enumerate(S[:45]):
+    if i % 2 == 0: c.setFillColor(HexColor('#f5f6f3')); c.rect(M, y - 3.5, CW, 12.6, fill=1, stroke=0)
+    vals = [title(s[0]), str(s[1]), str(s[2]), title(s[3]), fmt(s[5]), fmt(s[6]), fmt(s[7]), pct(s[8])]
+    for (nm, x, w), v in zip(cols, vals):
+        c.setFont('SB' if nm == 'Votos' else 'R', 7.2); c.setFillColor(INK)
+        if nm in NUM:
+            c.drawRightString(M + x + w, y, v)
+        else:
+            while c.stringWidth(v, 'R', 7.2) > w - 6: v = v[:-2] + '…'
+            c.drawString(M + x, y, v)
+    ag = f" · consolidada com as seções agregadas {s[9].replace(' ', ', ')}" if s[9] else ''
+    tip(M, y - 3.5, CW, 12.6, f"{title(s[0])}, zona {s[1]}, seção {s[2]} ({title(s[3])}, {title(s[4])}): {fmt(s[6])} votos de Izaias, {pct(s[8])} dos {fmt(s[7])} válidos, {fmt(s[5])} eleitores aptos{ag}")
+    y -= 12.6
+footer(); c.showPage()
+
+# ================= PÁGINA 8: PSD =================
+y = H - 50
+y = head(y, '6 · Quanto faltou', '7º colocado na lista do PSD, que deve ficar com 2 vagas',
          'O TSE ainda não marcou os eleitos (a totalização está em reprocessamento). Recalculei a distribuição das 25 vagas com o quociente eleitoral do TSE (210.580) e as regras de sobras: partido com 80% do quociente e candidato com 20%. Pelo cálculo, o PSD fica com 2 cadeiras. Para ser eleito, Izaias precisaria de cerca de 86.900 votos a mais, o suficiente para passar Guilherme Uchoa Junior (98.569). Para o PSD conquistar uma 3ª cadeira, o partido precisaria de cerca de 87.700 votos a mais no total.')
 y = hint(y) - 4
 text(M, y, 'Lista do PSD (12 mais votados)', 'B', 10); y -= 16

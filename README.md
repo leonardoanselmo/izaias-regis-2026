@@ -9,6 +9,7 @@ O relatório tem:
 - os 106 municípios onde ele teve voto;
 - comparação com 2022, quando ele foi eleito deputado estadual pelo PSDB (número 45678);
 - Garanhuns por bairro e por local de votação;
+- votos em cada seção eleitoral de PE, sem misturar as seções agregadas;
 - estimativa de quantos votos faltaram para a vaga.
 
 > Os dados de 2026 vêm da totalização do TSE, que ainda mostra o aviso "Aguarde reprocessamento da eleição". Os números podem mudar. A distribuição de vagas é uma estimativa própria, e o resultado oficial é o que o TSE proclamar.
@@ -33,6 +34,7 @@ cd scripts
 python 1_coleta_municipios.py   # API do TSE: votos do 5567 nos 185 municípios
 python 2_vagas_estimadas.py     # estimativa das 25 vagas (quociente eleitoral e sobras)
 python 3_garanhuns_secoes.py    # votos por seção e locais de votação de Garanhuns (~280 MB)
+python 3b_votos_por_secao.py    # votos do 5567 em cada seção de PE (mesmos downloads do passo 3)
 python 4_comparacao_2022.py     # votos de 2022 por município (~640 MB na 1ª vez)
 python 5_mapa.py                # contornos dos municípios e votos por código IBGE
 python 6_monta_site.py          # gera dados/relatorio.json e index.html
@@ -48,6 +50,19 @@ python scripts/7_gera_pdf.py
 Os arquivos grandes ficam em `brutos/` e só são baixados se ainda não existirem. Para pegar uma versão nova da votação por seção, apague o arquivo correspondente em `brutos/` antes de rodar o passo 3.
 
 Depois de atualizar, publique com `git add -A && git commit && git push`. O GitHub Pages atualiza o site no mesmo endereço em um ou dois minutos.
+
+## Seções agregadas e consolidadas
+
+Quando uma seção é agregada a outra, os eleitores dela votam na urna da seção principal, e o TSE publica o resultado só na principal. O arquivo de votos por seção não tem linhas para as agregadas: em PE são 673 agregadas, somadas em 626 seções principais.
+
+Por isso, o passo 3b:
+- não cria linha para seção agregada (e confere que nenhuma agregada tem voto próprio);
+- marca a principal como consolidada e lista as agregadas que ela recebe;
+- soma o eleitorado da principal com o das agregadas, para o percentual não misturar bases.
+
+O arquivo de locais de votação repete cada seção para o 1º e o 2º turno, e o mesmo código de local pode apontar para outro prédio no 2º turno. Os scripts usam só as linhas do 1º turno e ligam cada seção ao local pela própria seção, não pelo código do local.
+
+O resultado está em `dados/izaias_regis_5567_por_secao.csv`: todas as 21.418 seções com resultado em PE, inclusive as com 0 votos.
 
 ## Fontes
 
