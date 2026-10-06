@@ -171,7 +171,7 @@ yy = text(M + 10, y - 6, warn, 'R', 8.5, WARNINK, CW - 20, 12); y = yy - 14
 K = [('Votos em Pernambuco', '11.673', '0,22% dos válidos · 62º lugar', 'Total de votos nominais de Izaias Regis no estado: 11.673 (0,22% dos válidos), 62º colocado entre todos os candidatos.'),
      ('Vieram de Garanhuns', '71,9%', '8.397 votos, 11,65% da cidade', 'Garanhuns deu 8.397 dos 11.673 votos (71,9%). Na cidade, ele teve 11,65% dos votos válidos para deputado federal.'),
      ('Em 2022 (dep. estadual)', '27.104', '-57% de um pleito para o outro', 'Em 2022 foi eleito deputado estadual pelo PSDB (45678) com 27.104 votos. Em 2026 teve 11.673, queda de 57%.'),
-     ('Faltaram para se eleger', '~86.900', 'estimativa, ver página 8', 'Estimativa: o PSD deve ficar com 2 vagas. O último eleito estimado do partido, Guilherme Uchoa Junior, teve 98.569 votos, 86.896 a mais que Izaias.')]
+     ('Votos a mais para se eleger', '~86.900', 'estimativa · ver página 10', 'Estimativa: o PSD deve ficar com 2 vagas. O último eleito estimado do partido, Guilherme Uchoa Junior, teve 98.569 votos, 86.896 a mais que Izaias.')]
 kw = (CW - 3 * 8) / 4
 for i, (a, b, s, t) in enumerate(K):
     x = M + i * (kw + 8)
@@ -302,11 +302,106 @@ for i, l in enumerate(G['locais']):
     y -= 13.2
 footer(); c.showPage()
 
+# ================= PÁGINAS 7 e 8: Garanhuns 2022 x 2026 =================
+X = D['g2']; T = X['tot']
+CA = HexColor('#d9622b')
+def pp(v): return ('+' if v > 0 else '-' if v < 0 else '') + f'{abs(v):.1f}'.replace('.', ',') + ' p.p.'
+piz22 = 100 * T['2022']['iz'] / T['2022']['val_iz']; piz26 = 100 * T['2026']['iz'] / T['2026']['val_iz']
+pca22 = 100 * T['2022']['ca'] / T['2022']['val_fed']; pca26 = 100 * T['2026']['ca'] / T['2026']['val_fed']
+y = H - 50
+y = head(y, '5 · Garanhuns, 2022 × 2026', 'Izaias perdeu espaço em todos os bairros, e Felipe Carreras cresceu em todos',
+         f"Na cidade, Izaias foi de {fmt(T['2022']['iz'])} votos ({pct(piz22)} dos válidos) para {fmt(T['2026']['iz'])} ({pct(piz26)}). Felipe Carreras foi de {fmt(T['2022']['ca'])} ({pct(pca22)}) para {fmt(T['2026']['ca'])} ({pct(pca26)}). Nos {len(X['locais'])} locais que existiam nas duas eleições, a queda de um e a alta do outro andam juntas, mas não de forma exata (correlação de {str(X['cor']).replace('.', ',')} entre as variações em pontos percentuais). Em 2022 Izaias disputou deputado estadual; Carreras disputou deputado federal nas duas. Cada percentual é sobre os válidos do cargo disputado no ano.")
+y = hint(y) - 4
+c.setFillColor(GRAY); c.circle(M + 4, y + 3, 3.2, fill=1, stroke=0); text(M + 11, y, '2022', 'R', 8, INK2)
+c.setFillColor(ACC); c.circle(M + 48, y + 3, 3.2, fill=1, stroke=0); text(M + 55, y, 'Izaias 2026', 'R', 8, INK2)
+c.setFillColor(CA); c.circle(M + 118, y + 3, 3.2, fill=1, stroke=0); text(M + 125, y, 'Carreras 2026', 'R', 8, INK2)
+text(M + 200, y, 'Números: % em 2022 -> % em 2026', 'R', 8, INK2); y -= 20
+B = sorted([b for b in X['bairros'] if b[1] > 0], key=lambda b: -b[2])
+lw = 128; colw = (CW - lw - 16) / 2; vmax = max(max(b[3], b[4], b[7], b[8]) for b in B) * 1.45
+text(M + lw, y, 'Izaias', 'B', 9.5); text(M + lw + colw + 16, y, 'Felipe Carreras', 'B', 9.5); y -= 16
+for b in B:
+    c.setFont('R', 8.3); c.setFillColor(INK2); c.drawString(M, y, title(b[0])[:26])
+    for j, (a, z, cor, nm) in enumerate([(b[3], b[4], ACC, 'Izaias'), (b[7], b[8], CA, 'Felipe Carreras')]):
+        x0 = M + lw + j * (colw + 16); X1 = x0 + a / vmax * colw; X2 = x0 + z / vmax * colw
+        c.setStrokeColor(LINE); c.setLineWidth(1.4); c.line(x0, y + 2.5, x0 + colw, y + 2.5)
+        c.setStrokeColor(HexColor('#c9ced2')); c.setLineWidth(2.2); c.line(min(X1, X2), y + 2.5, max(X1, X2), y + 2.5)
+        c.setFillColor(GRAY); c.circle(X1, y + 2.5, 3.2, fill=1, stroke=0)
+        c.setFillColor(cor); c.circle(X2, y + 2.5, 3.2, fill=1, stroke=0)
+        c.setFont('R', 7); c.setFillColor(INK2); c.drawString(max(X1, X2) + 6, y, f"{a:.1f}".replace('.', ',') + ' -> ' + pct(z))
+        tip(x0, y - 4, colw, 15, f"{nm} em {title(b[0])}: {pct(a)} dos válidos em 2022, {pct(z)} em 2026 ({pp(z - a)})")
+    y -= 17
+y -= 10
+text(M, y, 'Locais de votação que existiam nas duas eleições, ordenados pela queda de Izaias', 'B', 10); y -= 16
+cols = [('Local de votação (2026)', 0, 200), ('Izaias 22', 200, 50), ('Izaias 26', 250, 50), ('Δ Izaias', 300, 60), ('Carreras 22', 360, 55), ('Carreras 26', 415, 55), ('Δ Carreras', 470, CW - 470)]
+c.setFont('SB', 7.6); c.setFillColor(INK2)
+for nm, x, w in cols:
+    (c.drawString if x == 0 else c.drawRightString)(M + x + (0 if x == 0 else w), y, nm)
+y -= 5; c.setStrokeColor(INK); c.setLineWidth(0.8); c.line(M, y, W - M, y); y -= 11
+LOC = sorted(X['locais'], key=lambda r: r[10] - r[9])
+def linha_local(r, y, i):
+    if i % 2 == 0: c.setFillColor(HexColor('#f5f6f3')); c.rect(M, y - 3.5, CW, 12.6, fill=1, stroke=0)
+    vals = [title(r[0]), fmt(r[2]), fmt(r[3]), pp(r[10] - r[9]), fmt(r[4]), fmt(r[5]), pp(r[12] - r[11])]
+    for (nm, x, w), v in zip(cols, vals):
+        c.setFont('R', 7.2); c.setFillColor(DOWN if nm == 'Δ Izaias' else UP if nm == 'Δ Carreras' else INK)
+        if x == 0:
+            while c.stringWidth(v, 'R', 7.2) > w - 6: v = v[:-2] + '…'
+            c.drawString(M, y, v)
+        else:
+            c.drawRightString(M + x + w, y, v)
+    antes = f" (em 2022: {title(r[8])})" if r[8] else ''
+    tip(M, y - 3.5, CW, 12.6, f"{title(r[0])}{antes}, {title(r[1])}: Izaias {fmt(r[2])} -> {fmt(r[3])} votos ({pct(r[9])} -> {pct(r[10])}); Carreras {fmt(r[4])} -> {fmt(r[5])} ({pct(r[11])} -> {pct(r[12])})")
+for i, r in enumerate(LOC[:13]):
+    linha_local(r, y, i); y -= 12.6
+footer(); c.showPage()
+
+y = H - 50
+y = head(y, '5 · Garanhuns, 2022 × 2026 (continuação)', 'Demais locais e mapa dos locais de votação')
+y = hint(y) - 4
+c.setFont('SB', 7.6); c.setFillColor(INK2)
+for nm, x, w in cols:
+    (c.drawString if x == 0 else c.drawRightString)(M + x + (0 if x == 0 else w), y, nm)
+y -= 5; c.setStrokeColor(INK); c.setLineWidth(0.8); c.line(M, y, W - M, y); y -= 11
+for i, r in enumerate(LOC[13:]):
+    linha_local(r, y, i); y -= 12.6
+y -= 4
+y = text(M, y, f"Locais que existiam só em 2022 ({', '.join(title(n) for n in X['mudaram']['2022'])}) somaram {fmt(X['resto']['2022'][0])} votos de Izaias; locais novos em 2026 ({', '.join(title(n) for n in X['mudaram']['2026'])}) somaram {fmt(X['resto']['2026'][0])}.", 'R', 7.5, MUTED, CW, 10.5) - 10
+# mapa dos locais (área urbana), círculo = votos 2026, cor = % 2026
+text(M, y, 'Mapa dos locais de votação (área urbana)', 'B', 10)
+GV = [HexColor(h) for h in ['#c9dbf5', '#86ade6', '#3f78d0', '#173f8c']]
+lx = M + 210
+for i, tx in enumerate(['até 8%', '8 a 11%', '11 a 14%', '14% ou mais']):
+    c.setFillColor(GV[i]); c.circle(lx + 4, y + 3, 4, fill=1, stroke=0); text(lx + 11, y, tx, 'R', 7.5, INK2); lx += 20 + c.stringWidth(tx, 'R', 7.5)
+y -= 8
+L = [dict(l, x=float(l['lon'].replace(',', '.')), yy=float(l['lat'].replace(',', '.'))) for l in G['locais'] if l['lat']]
+urb = [l for l in L if -8.93 < l['yy'] < -8.85]; dist = [l for l in L if l not in urb]
+mh = y - 70; mw = CW
+x0, x1 = min(l['x'] for l in urb), max(l['x'] for l in urb); y0, y1 = min(l['yy'] for l in urb), max(l['yy'] for l in urb)
+k = min((mw - 60) / (x1 - x0), (mh - 60) / (y1 - y0)); ox = M + (mw - (x1 - x0) * k) / 2; oy = (y - mh) + (mh - (y1 - y0) * k) / 2
+c.setStrokeColor(LINE); c.setLineWidth(0.8); c.roundRect(M, y - mh, mw, mh, 6, fill=0, stroke=1)
+dm = {r[0]: r[10] - r[9] for r in X['locais']}
+for l in sorted(urb, key=lambda l: -l['votos']):
+    cx = ox + (l['x'] - x0) * k; cy = oy + (l['yy'] - y0) * k; rr = 2 + math.sqrt(l['votos']) * 0.5
+    p_ = l['pct']; c.setFillColor(GV[0 if p_ < 8 else 1 if p_ < 11 else 2 if p_ < 14 else 3])
+    c.setStrokeColor(HexColor('#ffffff')); c.setLineWidth(0.8); c.circle(cx, cy, rr, fill=1, stroke=1)
+    d = dm.get(l['local'])
+    tip(cx - rr, cy - rr, 2 * rr, 2 * rr, f"{title(l['local'])} ({title(l['bairro'])}): {fmt(l['votos'])} votos, {pct(l['pct'])} dos válidos" + (f"; variação desde 2022: {pp(d)}" if d is not None else '; local novo em 2026'))
+cent = {}
+for l in urb: cent.setdefault(l['bairro'], []).append(l)
+for bnm, a in cent.items():
+    if len(a) < 2: continue
+    cx = sum(ox + (l['x'] - x0) * k for l in a) / len(a); cy = max(oy + (l['yy'] - y0) * k for l in a) + 12
+    s = title(bnm).upper(); c.setFont('SB', 6.5); tw = c.stringWidth(s, 'SB', 6.5)
+    c.setFillColor(Color(1, 1, 1, alpha=0.8)); c.rect(cx - tw / 2 - 2, cy - 2, tw + 4, 8.5, fill=1, stroke=0)
+    c.setFillColor(INK2); c.drawCentredString(cx, cy, s)
+y -= mh + 12
+text(M, y, 'Tamanho do círculo: votos de Izaias em 2026. Fora do recorte, nos distritos: ' + ', '.join(f"{title(l['bairro'].replace('DISTRITO DE ', ''))} ({fmt(l['votos'])} votos, {pct(l['pct'])})" for l in dist) + '.', 'R', 7.5, MUTED, CW, 10.5)
+footer(); c.showPage()
+
 # ================= PÁGINA 7: seções =================
 S = D['secoes']
 y = H - 50
-y = head(y, '5 · Por seção eleitoral', f"Voto em {fmt(len(S))} seções; as 45 com mais votos",
-         f"Seções agregadas não têm resultado próprio: os eleitores delas votam na urna da seção principal e o TSE publica os votos só na principal. A principal que recebe agregadas aparece como consolidada, com os eleitores aptos já somados. {sum(1 for s in S if s[9])} das seções com voto são consolidadas. A lista completa está no site e em dados/izaias_regis_5567_por_secao.csv.")
+y = head(y, '6 · Por seção eleitoral', f"Voto em {fmt(len(S))} seções; as 45 com mais votos",
+         f"Algumas seções pequenas não têm urna própria: os eleitores delas votam na urna de outra seção do mesmo local. O resultado sai só na seção que tem a urna (consolidada), com os eleitores das duas somados. Exemplo: em Brejão, a seção 452 (63 eleitores) votou na urna da 181 (272), que aparece com 335 aptos. {sum(1 for s in S if s[9])} das seções com voto são consolidadas. A lista completa está no site e em dados/izaias_regis_5567_por_secao.csv.")
 y = hint(y) - 6
 cols = [('Município', 0, 100), ('Zona', 100, 26), ('Seção', 126, 32), ('Local de votação', 168, 196), ('Aptos', 364, 40), ('Votos', 404, 40), ('Válidos', 444, 40), ('% válidos', 484, CW - 484)]
 NUM = {'Zona', 'Seção', 'Aptos', 'Votos', 'Válidos', '% válidos'}
@@ -331,7 +426,7 @@ footer(); c.showPage()
 
 # ================= PÁGINA 8: PSD =================
 y = H - 50
-y = head(y, '6 · Quanto faltou', '7º colocado na lista do PSD, que deve ficar com 2 vagas',
+y = head(y, '7 · Quanto faltou', '7º colocado na lista do PSD, que deve ficar com 2 vagas',
          'O TSE ainda não marcou os eleitos (a totalização está em reprocessamento). Recalculei a distribuição das 25 vagas com o quociente eleitoral do TSE (210.580) e as regras de sobras: partido com 80% do quociente e candidato com 20%. Pelo cálculo, o PSD fica com 2 cadeiras. Para ser eleito, Izaias precisaria de cerca de 86.900 votos a mais, o suficiente para passar Guilherme Uchoa Junior (98.569). Para o PSD conquistar uma 3ª cadeira, o partido precisaria de cerca de 87.700 votos a mais no total.')
 y = hint(y) - 4
 text(M, y, 'Lista do PSD (12 mais votados)', 'B', 10); y -= 16

@@ -23,8 +23,9 @@ relatorio = dict(
     seats=sorted([dict(nm=x['com'], v=x['v'], s=x['s']) for x in ler_json('cadeiras.json') if x['s'] > 0], key=lambda x: -x['v']),
     comp=ler_json('comparacao_2022.json'),
     secoes=ler_json('secoes.json'),
+    g2=ler_json('garanhuns_2022x2026.json'),
     gar=dict(validos=gar['validos'], brancos=gar['brancos'], nulos=gar['nulos'], top=gar['top'][:10], bairros=gar['bairros'],
-             locais=[{k: v for k, v in l.items() if k not in ('lat', 'lon')} for l in gar['locais']]),
+             locais=gar['locais']),
 )
 salvar_json(relatorio, 'relatorio.json')
 

@@ -9,6 +9,7 @@ O relatório tem:
 - os 106 municípios onde ele teve voto;
 - comparação com 2022, quando ele foi eleito deputado estadual pelo PSDB (número 45678);
 - Garanhuns por bairro e por local de votação;
+- Garanhuns 2022 × 2026: onde Izaias perdeu espaço e Felipe Carreras cresceu, com mapa dos locais de votação;
 - votos em cada seção eleitoral de PE, sem misturar as seções agregadas;
 - estimativa de quantos votos faltaram para a vaga.
 
@@ -35,6 +36,7 @@ python 1_coleta_municipios.py   # API do TSE: votos do 5567 nos 185 municípios
 python 2_vagas_estimadas.py     # estimativa das 25 vagas (quociente eleitoral e sobras)
 python 3_garanhuns_secoes.py    # votos por seção e locais de votação de Garanhuns (~280 MB)
 python 3b_votos_por_secao.py    # votos do 5567 em cada seção de PE (mesmos downloads do passo 3)
+python 3c_garanhuns_2022.py     # Garanhuns 2022 x 2026 por bairro e local (~150 MB de 2022)
 python 4_comparacao_2022.py     # votos de 2022 por município (~640 MB na 1ª vez)
 python 5_mapa.py                # contornos dos municípios e votos por código IBGE
 python 6_monta_site.py          # gera dados/relatorio.json e index.html
