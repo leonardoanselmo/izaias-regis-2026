@@ -96,7 +96,8 @@ td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-
 tr:last-child td{border-bottom:0}
 table.resp{min-width:0;font-size:12.5px}
 .resp th,.resp td{padding:6px 8px;vertical-align:top}
-.resp td.n,.resp th.n{white-space:nowrap}
+.resp td.n{white-space:nowrap}
+.resp th{white-space:normal;line-height:1.3}
 .resp .chip{font-size:11.5px;padding:1px 8px;white-space:normal}
 @media (max-width:900px){
   .resp thead{display:none}
@@ -118,7 +119,7 @@ table.resp{min-width:0;font-size:12.5px}
 #gmap circle{cursor:pointer}#gmap .ponto{stroke:var(--paper);stroke-width:1.2;fill-opacity:.9}
 #gmap circle:hover{stroke:var(--ink);stroke-width:2}
 #gmap .bl{font-family:var(--mono);font-size:10.5px;font-weight:500;fill:var(--ink2);letter-spacing:.04em;paint-order:stroke;stroke:var(--paper);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
-@media (max-width:560px){.duo{grid-template-columns:84px 1fr 1fr;gap:4px 8px}}
+@media (max-width:560px){.duo{grid-template-columns:84px 1fr 1fr;gap:4px 8px}.duo .tr{height:34px}.duo .ln,.duo .dot{top:10px}.duo .v{top:auto;bottom:0;left:0!important;transform:none;font-size:10.5px}}
 details summary{cursor:pointer;color:var(--accent-ink);font-weight:500;font-size:14px}
 details[open] summary{margin-bottom:12px}
 .cut{border-top:2px dashed var(--down);margin:6px 0 4px;position:relative}
@@ -184,7 +185,7 @@ footer a{color:var(--accent-ink)}
       <h3>Onde mais caiu</h3><div class="chips" id="perdas"></div>
       <h3>Alcance</h3>
       <p class="note" style="color:var(--ink2)" id="alcance"></p>
-      <details><summary>Tabela completa 2022 × 2026</summary><div class="tbl-wrap"><table id="tComp"></table></div></details>
+      <details><summary>Tabela completa 2022 × 2026</summary><div class="tbl-wrap"><table id="tComp" class="resp"></table></div></details>
     </div>
   </div>
 </section>
@@ -225,7 +226,7 @@ footer a{color:var(--accent-ink)}
     <div class="duo" id="g2Bairros"></div>
   </div>
   <h3>Por local de votação</h3>
-  <p class="note" style="color:var(--ink2);font-size:13.5px">Como ler: “27,9% → 6,3%” quer dizer que, de cada 100 votos válidos naquele local, cerca de 28 foram para o candidato em 2022 e cerca de 6 em 2026. Os percentuais permitem comparar locais que mudaram de tamanho entre as eleições. A tabela começa pelos locais onde Izaias mais perdeu espaço; clique nos títulos para reordenar.</p>
+  <p class="note" style="color:var(--ink2);font-size:13.5px">Cada coluna mostra 2022 → 2026. Como ler: “27,9% → 6,3%” quer dizer que, de cada 100 votos válidos naquele local, cerca de 28 foram para o candidato em 2022 e cerca de 6 em 2026. Os percentuais permitem comparar locais que mudaram de tamanho entre as eleições. A tabela começa pelos locais onde Izaias mais perdeu espaço; clique nos títulos para reordenar.</p>
   <div class="tbl-wrap"><table id="tG2" class="resp"></table></div>
   <p class="note" id="g2Nota"></p>
 </section>
@@ -378,10 +379,10 @@ table($('tLoc'),[{t:'Local de votação',f:title,w:1},{t:'Bairro',f:title},{t:'S
   table($('tG2'),[
     {t:'Local de votação (2026)',w:1,f:(v,r)=>title(v)+(r[6][8]?'<br><span class="note">em 2022: '+title(r[6][8])+'</span>':'')},
     {t:'Bairro',f:title},
-    {t:'Izaias: votos 2022 → 2026',n:1,f:(v,r)=>seta(fmt(r[6][2]),fmt(r[6][3]))},
-    {t:'Izaias: % dos válidos 2022 → 2026',n:1,f:(v,r)=>seta(p1(r[6][9]),p1(r[6][10]),'neg')},
-    {t:'Carreras: votos 2022 → 2026',n:1,f:(v,r)=>seta(fmt(r[6][4]),fmt(r[6][5]))},
-    {t:'Carreras: % dos válidos 2022 → 2026',n:1,f:(v,r)=>seta(p1(r[6][11]),p1(r[6][12]),'pos')}],
+    {t:'Izaias: votos',n:1,f:(v,r)=>seta(fmt(r[6][2]),fmt(r[6][3]))},
+    {t:'Izaias: % dos válidos',n:1,f:(v,r)=>seta(p1(r[6][9]),p1(r[6][10]),'neg')},
+    {t:'Carreras: votos',n:1,f:(v,r)=>seta(fmt(r[6][4]),fmt(r[6][5]))},
+    {t:'Carreras: % dos válidos',n:1,f:(v,r)=>seta(p1(r[6][11]),p1(r[6][12]),'pos')}],
     X.locais.map(r=>[r[0],r[1],r[3],+(r[10]-r[9]).toFixed(2),r[5],+(r[12]-r[11]).toFixed(2),r]),3,false);
   $('g2Nota').textContent='A tabela junta só locais com o mesmo código nos dois anos. Locais que existiam só em 2022 ('+X.mudaram['2022'].map(title).join(', ')+') somaram '+fmt(X.resto['2022'][0])+' votos de Izaias; locais novos em 2026 ('+X.mudaram['2026'].map(title).join(', ')+') somaram '+fmt(X.resto['2026'][0])+'. ';
 
