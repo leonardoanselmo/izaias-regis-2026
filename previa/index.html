@@ -413,14 +413,14 @@ table($('tLoc'),[{t:'Local de votação',f:title,w:1},{t:'Bairro',f:title},{t:'S
   const tot22=X.locais.reduce((s,r)=>s+r[2],0),tot26=X.locais.reduce((s,r)=>s+r[3],0);
   function pinta(){
     const d=modo==='d';
-    aneis.style('display',d?null:'none').style('fill','var(--track)').style('stroke','var(--gray-bar)').style('stroke-width',1.2);
+    aneis.style('display',d?null:'none').style('fill','var(--mid)').style('stroke','var(--muted)').style('stroke-width',1.2);
     circ.style('fill',l=>d?'var(--down)':'var(--'+binV(l.pct)+')');
     $('gmV').setAttribute('aria-pressed',!d);$('gmD').setAttribute('aria-pressed',d);
     $('gmExp').innerHTML=d
       ?'<b>Quanto ele encolheu em cada local.</b> O círculo cinza é o tamanho da votação de Izaias em 2022; o vermelho, dentro dele, é o de 2026. Quanto maior a sobra cinza, mais votos ele perdeu ali. Nos '+X.locais.length+' locais que existem nas duas eleições, ele foi de '+fmt(tot22)+' para '+fmt(tot26)+' votos.'
-      :'<b>Onde estão os votos de 2026.</b> Cada círculo é um local de votação: o tamanho mostra quantos votos Izaias teve ali, e a cor mostra o peso dele entre os votos válidos do local (mais escuro, mais forte).';
+      :'<b>Onde estão os votos de 2026.</b> Cada círculo é um local de votação: o tamanho mostra quantos votos Izaias teve ali, e a cor mostra que fatia dos votos válidos do local ele recebeu (veja a legenda).';
     $('gmLeg').innerHTML=d
-      ?'<span><i style="background:var(--track);border:1.5px solid var(--gray-bar);border-radius:50%"></i>Votos em 2022</span><span><i style="background:var(--down);border-radius:50%"></i>Votos em 2026</span><span>Sem círculo cinza: local novo em 2026</span>'
+      ?'<span><i style="background:var(--mid);border:1.5px solid var(--muted);border-radius:50%"></i>Votos em 2022</span><span><i style="background:var(--down);border-radius:50%"></i>Votos em 2026</span><span>Sem círculo cinza: local novo em 2026</span>'
       :[['g1','até 8% dos válidos'],['g2','8 a 11%'],['g3','11 a 14%'],['g4','14% ou mais']].map(([c,tx])=>'<span><i style="background:var(--'+c+');border-radius:50%"></i>'+tx+'</span>').join('')+'<span>Tamanho: votos em 2026</span>';
   }
   $('gmV').onclick=()=>{modo='v';pinta()};$('gmD').onclick=()=>{modo='d';pinta()};pinta();
