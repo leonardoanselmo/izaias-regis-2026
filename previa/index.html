@@ -382,7 +382,7 @@ table($('tLoc'),[{t:'Local de votação',f:title,w:1},{t:'Bairro',f:title},{t:'S
 
   /* mapa dos locais */
   const L=G.locais.filter(l=>l.lat).map(l=>({...l,y:+l.lat.replace(',','.'),x:+l.lon.replace(',','.')}));
-  const v22={},d22={},n22={};X.locais.forEach(r=>{v22[r[0]]=r[2];d22[r[0]]=r[10]-r[9];n22[r[0]]=r[8]});
+  const v22={},p22={},n22={};X.locais.forEach(r=>{v22[r[0]]=r[2];p22[r[0]]=r[9];n22[r[0]]=r[8]});
   const urb=L.filter(l=>l.y>-8.93&&l.y<-8.85),dist=L.filter(l=>!urb.includes(l));
   const W=900,H=560,pad=46;
   const x0=Math.min(...urb.map(l=>l.x)),x1=Math.max(...urb.map(l=>l.x)),y0=Math.min(...urb.map(l=>l.y)),y1=Math.max(...urb.map(l=>l.y));
@@ -406,7 +406,7 @@ table($('tLoc'),[{t:'Local de votação',f:title,w:1},{t:'Bairro',f:title},{t:'S
     const rc=$('gmap').getBoundingClientRect(),a=v22[l.local];
     let h='<b>'+title(l.local)+'</b><br>'+title(l.bairro);
     if(modo==='v') h+='<br>2026: '+fmt(l.votos)+' votos, '+pct(l.pct)+' dos válidos';
-    else h+=a===undefined?'<br>Local novo em 2026: '+fmt(l.votos)+' votos':'<br>2022: '+fmt(a)+' votos<br>2026: '+fmt(l.votos)+' votos ('+(l.votos>=a?'+':'−')+fmt(Math.abs(l.votos-a))+')<br>Percentual: '+pp(d22[l.local])+(n22[l.local]?'<br><span style="opacity:.75">Em 2022 o local era: '+title(n22[l.local])+'</span>':'');
+    else h+=a===undefined?'<br>Local novo em 2026: '+fmt(l.votos)+' votos':'<br>2022: '+fmt(a)+' votos<br>2026: '+fmt(l.votos)+' votos ('+(l.votos>=a?'+':'−')+fmt(Math.abs(l.votos-a))+')<br>Fatia dos válidos: '+pct(p22[l.local])+' → '+pct(l.pct)+(n22[l.local]?'<br><span style="opacity:.75">Em 2022 o local era: '+title(n22[l.local])+'</span>':'');
     tip.innerHTML=h;tip.style.left=(e.clientX-rc.left)+'px';tip.style.top=(e.clientY-rc.top)+'px';tip.style.opacity=1;tip.style.whiteSpace='normal';tip.style.width='250px';
   }
   svg.selectAll('circle').on('mousemove',dica).on('mouseleave',()=>tip.style.opacity=0);
