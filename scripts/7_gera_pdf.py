@@ -378,13 +378,13 @@ mh = y - 70; mw = CW
 x0, x1 = min(l['x'] for l in urb), max(l['x'] for l in urb); y0, y1 = min(l['yy'] for l in urb), max(l['yy'] for l in urb)
 k = min((mw - 60) / (x1 - x0), (mh - 60) / (y1 - y0)); ox = M + (mw - (x1 - x0) * k) / 2; oy = (y - mh) + (mh - (y1 - y0) * k) / 2
 c.setStrokeColor(LINE); c.setLineWidth(0.8); c.roundRect(M, y - mh, mw, mh, 6, fill=0, stroke=1)
-dm = {r[0]: r[10] - r[9] for r in X['locais']}
+dm = {r[0]: r for r in X['locais']}
 for l in sorted(urb, key=lambda l: -l['votos']):
     cx = ox + (l['x'] - x0) * k; cy = oy + (l['yy'] - y0) * k; rr = 2 + math.sqrt(l['votos']) * 0.5
     p_ = l['pct']; c.setFillColor(GV[0 if p_ < 8 else 1 if p_ < 11 else 2 if p_ < 14 else 3])
     c.setStrokeColor(HexColor('#ffffff')); c.setLineWidth(0.8); c.circle(cx, cy, rr, fill=1, stroke=1)
     d = dm.get(l['local'])
-    tip(cx - rr, cy - rr, 2 * rr, 2 * rr, f"{title(l['local'])} ({title(l['bairro'])}): {fmt(l['votos'])} votos, {pct(l['pct'])} dos válidos" + (f"; variação desde 2022: {pp(d)}" if d is not None else '; local novo em 2026'))
+    tip(cx - rr, cy - rr, 2 * rr, 2 * rr, f"{title(l['local'])} ({title(l['bairro'])}): {fmt(l['votos'])} votos, {pct(l['pct'])} dos válidos" + (f"; em 2022: {fmt(d[2])} votos ({pct(d[9])} dos válidos)" if d is not None else '; local novo em 2026'))
 cent = {}
 for l in urb: cent.setdefault(l['bairro'], []).append(l)
 for bnm, a in cent.items():
