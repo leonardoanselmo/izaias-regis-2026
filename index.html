@@ -224,6 +224,8 @@ footer a{color:var(--accent-ink)}
     <div class="legend"><span><i style="background:var(--gray-bar);border-radius:50%"></i>2022</span><span><i style="background:var(--accent);border-radius:50%"></i>Izaias 2026</span><span><i style="background:var(--ca);border-radius:50%"></i>Carreras 2026</span><span>Números: % em 2022 → % em 2026</span></div>
     <div class="duo" id="g2Bairros"></div>
   </div>
+  <h3>Por local de votação</h3>
+  <p class="note" style="color:var(--ink2);font-size:13.5px">Como ler: “27,9% → 6,3%” quer dizer que, de cada 100 votos válidos naquele local, cerca de 28 foram para o candidato em 2022 e cerca de 6 em 2026. Os percentuais permitem comparar locais que mudaram de tamanho entre as eleições. A tabela começa pelos locais onde Izaias mais perdeu espaço; clique nos títulos para reordenar.</p>
   <div class="tbl-wrap"><table id="tG2" class="resp"></table></div>
   <p class="note" id="g2Nota"></p>
 </section>
@@ -371,14 +373,17 @@ table($('tLoc'),[{t:'Local de votação',f:title,w:1},{t:'Bairro',f:title},{t:'S
   const cell=(a,b,cls,nm)=>'<div class="tr" title="'+nm+': '+pct(a)+' em 2022, '+pct(b)+' em 2026"><div class="ln" style="left:'+pos(Math.min(a,b))+';width:'+(Math.abs(b-a)/max*100).toFixed(2)+'%"></div><div class="dot d22" style="left:'+pos(a)+'"></div><div class="dot '+cls+'" style="left:'+pos(b)+'"></div><span class="v" style="left:calc('+pos(Math.max(a,b))+' + 9px)">'+a.toFixed(1).replace('.',',')+' → '+pct(b)+'</span></div>';
   $('g2Bairros').innerHTML='<div></div><div class="hd">Izaias</div><div class="hd">Felipe Carreras</div>'+[...B].sort((a,b)=>b[2]-a[2]).map(b=>'<div class="lb">'+title(b[0])+'</div>'+cell(b[3],b[4],'diz','Izaias em '+title(b[0]))+cell(b[7],b[8],'dca','Carreras em '+title(b[0]))).join('');
 
-  const neg=v=>'<span class="'+(v>=0?'pos':'neg')+'">'+pp(v)+'</span>';
+  const p1=v=>v.toFixed(1).replace('.',',')+'%';
+  const seta=(a,b,cls)=>'<span style="white-space:nowrap">'+a+' → '+(cls?'<b class="'+cls+'">'+b+'</b>':b)+'</span>';
   table($('tG2'),[
-    {t:'Local de votação (2026)',w:1,f:(v,r)=>title(v)+(r[8]?'<br><span class="note">em 2022: '+title(r[8])+'</span>':'')},
+    {t:'Local de votação (2026)',w:1,f:(v,r)=>title(v)+(r[6][8]?'<br><span class="note">em 2022: '+title(r[6][8])+'</span>':'')},
     {t:'Bairro',f:title},
-    {t:'Izaias 2022',n:1,f:fmt},{t:'Izaias 2026',n:1,f:fmt},{t:'Δ Izaias',n:1,f:neg},
-    {t:'Carreras 2022',n:1,f:fmt},{t:'Carreras 2026',n:1,f:fmt},{t:'Δ Carreras',n:1,f:neg}],
-    X.locais.map(r=>[r[0],r[1],r[2],r[3],+(r[10]-r[9]).toFixed(2),r[4],r[5],+(r[12]-r[11]).toFixed(2),r[8]]),4,false);
-  $('g2Nota').textContent='A tabela junta só locais com o mesmo código nos dois anos. Locais que existiam só em 2022 ('+X.mudaram['2022'].map(title).join(', ')+') somaram '+fmt(X.resto['2022'][0])+' votos de Izaias; locais novos em 2026 ('+X.mudaram['2026'].map(title).join(', ')+') somaram '+fmt(X.resto['2026'][0])+'. Δ = variação em pontos percentuais dos válidos.';
+    {t:'Izaias: votos 2022 → 2026',n:1,f:(v,r)=>seta(fmt(r[6][2]),fmt(r[6][3]))},
+    {t:'Izaias: % dos válidos 2022 → 2026',n:1,f:(v,r)=>seta(p1(r[6][9]),p1(r[6][10]),'neg')},
+    {t:'Carreras: votos 2022 → 2026',n:1,f:(v,r)=>seta(fmt(r[6][4]),fmt(r[6][5]))},
+    {t:'Carreras: % dos válidos 2022 → 2026',n:1,f:(v,r)=>seta(p1(r[6][11]),p1(r[6][12]),'pos')}],
+    X.locais.map(r=>[r[0],r[1],r[3],+(r[10]-r[9]).toFixed(2),r[5],+(r[12]-r[11]).toFixed(2),r]),3,false);
+  $('g2Nota').textContent='A tabela junta só locais com o mesmo código nos dois anos. Locais que existiam só em 2022 ('+X.mudaram['2022'].map(title).join(', ')+') somaram '+fmt(X.resto['2022'][0])+' votos de Izaias; locais novos em 2026 ('+X.mudaram['2026'].map(title).join(', ')+') somaram '+fmt(X.resto['2026'][0])+'. ';
 
   /* mapa dos locais */
   const L=G.locais.filter(l=>l.lat).map(l=>({...l,y:+l.lat.replace(',','.'),x:+l.lon.replace(',','.')}));

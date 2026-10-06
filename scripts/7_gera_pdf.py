@@ -315,7 +315,7 @@ y = hint(y) - 4
 c.setFillColor(GRAY); c.circle(M + 4, y + 3, 3.2, fill=1, stroke=0); text(M + 11, y, '2022', 'R', 8, INK2)
 c.setFillColor(ACC); c.circle(M + 48, y + 3, 3.2, fill=1, stroke=0); text(M + 55, y, 'Izaias 2026', 'R', 8, INK2)
 c.setFillColor(CA); c.circle(M + 118, y + 3, 3.2, fill=1, stroke=0); text(M + 125, y, 'Carreras 2026', 'R', 8, INK2)
-text(M + 200, y, 'Números: % em 2022 -> % em 2026', 'R', 8, INK2); y -= 20
+text(M + 200, y, 'Números: % dos válidos em 2022 → em 2026', 'R', 8, INK2); y -= 20
 B = sorted([b for b in X['bairros'] if b[1] > 0], key=lambda b: -b[2])
 lw = 128; colw = (CW - lw - 16) / 2; vmax = max(max(b[3], b[4], b[7], b[8]) for b in B) * 1.45
 text(M + lw, y, 'Izaias', 'B', 9.5); text(M + lw + colw + 16, y, 'Felipe Carreras', 'B', 9.5); y -= 16
@@ -327,22 +327,29 @@ for b in B:
         c.setStrokeColor(HexColor('#c9ced2')); c.setLineWidth(2.2); c.line(min(X1, X2), y + 2.5, max(X1, X2), y + 2.5)
         c.setFillColor(GRAY); c.circle(X1, y + 2.5, 3.2, fill=1, stroke=0)
         c.setFillColor(cor); c.circle(X2, y + 2.5, 3.2, fill=1, stroke=0)
-        c.setFont('R', 7); c.setFillColor(INK2); c.drawString(max(X1, X2) + 6, y, f"{a:.1f}".replace('.', ',') + ' -> ' + pct(z))
+        c.setFont('R', 7); c.setFillColor(INK2); c.drawString(max(X1, X2) + 6, y, f"{a:.1f}".replace('.', ',') + '% → ' + f"{z:.1f}".replace('.', ',') + '%')
         tip(x0, y - 4, colw, 15, f"{nm} em {title(b[0])}: {pct(a)} dos válidos em 2022, {pct(z)} em 2026 ({pp(z - a)})")
     y -= 17
 y -= 10
-text(M, y, 'Locais de votação que existiam nas duas eleições, ordenados pela queda de Izaias', 'B', 10); y -= 16
-cols = [('Local de votação (2026)', 0, 200), ('Izaias 22', 200, 50), ('Izaias 26', 250, 50), ('Δ Izaias', 300, 60), ('Carreras 22', 360, 55), ('Carreras 26', 415, 55), ('Δ Carreras', 470, CW - 470)]
-c.setFont('SB', 7.6); c.setFillColor(INK2)
-for nm, x, w in cols:
-    (c.drawString if x == 0 else c.drawRightString)(M + x + (0 if x == 0 else w), y, nm)
-y -= 5; c.setStrokeColor(INK); c.setLineWidth(0.8); c.line(M, y, W - M, y); y -= 11
+text(M, y, 'Locais de votação que existiam nas duas eleições, ordenados pela queda de Izaias', 'B', 10); y -= 13
+y = text(M, y, "Como ler: '27,9% → 6,3%' quer dizer que, de cada 100 votos válidos naquele local, cerca de 28 foram para o candidato em 2022 e cerca de 6 em 2026. Os percentuais permitem comparar locais que mudaram de tamanho entre as eleições.", 'R', 7.8, INK2, CW, 10.5) - 6
+cols = [('Local de votação (2026)', 0, 175), ('Izaias: votos', 175, 72), ('Izaias: % dos válidos', 247, 92), ('Carreras: votos', 339, 84), ('Carreras: % dos válidos', 423, CW - 423)]
+def cabecalho(y):
+    c.setFont('SB', 7.6); c.setFillColor(INK2)
+    for nm, x, w in cols:
+        (c.drawString if x == 0 else c.drawRightString)(M + x + (0 if x == 0 else w), y, nm)
+    c.setFont('R', 6.8); c.setFillColor(MUTED)
+    for nm, x, w in cols[1:]:
+        c.drawRightString(M + x + w, y - 9, '2022 → 2026')
+    y -= 14; c.setStrokeColor(INK); c.setLineWidth(0.8); c.line(M, y, W - M, y); return y - 11
+y = cabecalho(y)
 LOC = sorted(X['locais'], key=lambda r: r[10] - r[9])
 def linha_local(r, y, i):
     if i % 2 == 0: c.setFillColor(HexColor('#f5f6f3')); c.rect(M, y - 3.5, CW, 12.6, fill=1, stroke=0)
-    vals = [title(r[0]), fmt(r[2]), fmt(r[3]), pp(r[10] - r[9]), fmt(r[4]), fmt(r[5]), pp(r[12] - r[11])]
+    p1 = lambda v: f'{v:.1f}'.replace('.', ',') + '%'
+    vals = [title(r[0]), f'{fmt(r[2])} → {fmt(r[3])}', f'{p1(r[9])} → {p1(r[10])}', f'{fmt(r[4])} → {fmt(r[5])}', f'{p1(r[11])} → {p1(r[12])}']
     for (nm, x, w), v in zip(cols, vals):
-        c.setFont('R', 7.2); c.setFillColor(DOWN if nm == 'Δ Izaias' else UP if nm == 'Δ Carreras' else INK)
+        c.setFont('SB' if '%' in nm else 'R', 7.2); c.setFillColor(DOWN if nm == 'Izaias: % dos válidos' else UP if nm == 'Carreras: % dos válidos' else INK)
         if x == 0:
             while c.stringWidth(v, 'R', 7.2) > w - 6: v = v[:-2] + '…'
             c.drawString(M, y, v)
@@ -350,18 +357,15 @@ def linha_local(r, y, i):
             c.drawRightString(M + x + w, y, v)
     antes = f" (em 2022: {title(r[8])})" if r[8] else ''
     tip(M, y - 3.5, CW, 12.6, f"{title(r[0])}{antes}, {title(r[1])}: Izaias {fmt(r[2])} -> {fmt(r[3])} votos ({pct(r[9])} -> {pct(r[10])}); Carreras {fmt(r[4])} -> {fmt(r[5])} ({pct(r[11])} -> {pct(r[12])})")
-for i, r in enumerate(LOC[:13]):
+for i, r in enumerate(LOC[:12]):
     linha_local(r, y, i); y -= 12.6
 footer(); c.showPage()
 
 y = H - 50
 y = head(y, '5 · Garanhuns, 2022 × 2026 (continuação)', 'Demais locais e mapa dos locais de votação')
 y = hint(y) - 4
-c.setFont('SB', 7.6); c.setFillColor(INK2)
-for nm, x, w in cols:
-    (c.drawString if x == 0 else c.drawRightString)(M + x + (0 if x == 0 else w), y, nm)
-y -= 5; c.setStrokeColor(INK); c.setLineWidth(0.8); c.line(M, y, W - M, y); y -= 11
-for i, r in enumerate(LOC[13:]):
+y = cabecalho(y)
+for i, r in enumerate(LOC[12:]):
     linha_local(r, y, i); y -= 12.6
 y -= 4
 y = text(M, y, f"Locais que existiam só em 2022 ({', '.join(title(n) for n in X['mudaram']['2022'])}) somaram {fmt(X['resto']['2022'][0])} votos de Izaias; locais novos em 2026 ({', '.join(title(n) for n in X['mudaram']['2026'])}) somaram {fmt(X['resto']['2026'][0])}.", 'R', 7.5, MUTED, CW, 10.5) - 10
