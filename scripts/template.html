@@ -1,0 +1,298 @@
+<title>Izaias Regis 5567 em 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#f5f6f3;--paper:#ffffff;--ink:#16202a;--ink2:#4a5561;--muted:#7a848e;--line:#dfe3e0;--track:#eceeea;
+  --accent:#1f56c4;--accent-soft:#e3ebfa;--accent-ink:#163f91;--gray-bar:#b7bec4;
+  --up:#2a78d6;--down:#d6553f;--mid:#cfd3d0;
+  --m0:#eceeea;--m1:#d4e2f6;--m2:#9fc0ec;--m3:#5f95db;--m4:#2c66c4;--m5:#143f8a;
+  --warn-bg:#fdf3dc;--warn-ink:#7a5208;--warn-line:#ecd29a;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;--body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+  --bg:#11161b;--paper:#182027;--ink:#eef1f3;--ink2:#b9c2ca;--muted:#8a949d;--line:#2a343d;--track:#222b33;
+  --accent:#5b93ee;--accent-soft:#1c2c45;--accent-ink:#a9c6f7;--gray-bar:#56616b;
+  --up:#4b92ec;--down:#e8735f;--mid:#3a444d;
+  --m0:#222b33;--m1:#1d3354;--m2:#21477e;--m3:#2f64b0;--m4:#5590e3;--m5:#9cc0f5;
+  --warn-bg:#352a12;--warn-ink:#f1d28f;--warn-line:#5e4a1d;}}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#11161b;--paper:#182027;--ink:#eef1f3;--ink2:#b9c2ca;--muted:#8a949d;--line:#2a343d;--track:#222b33;
+  --accent:#5b93ee;--accent-soft:#1c2c45;--accent-ink:#a9c6f7;--gray-bar:#56616b;
+  --up:#4b92ec;--down:#e8735f;--mid:#3a444d;
+  --m0:#222b33;--m1:#1d3354;--m2:#21477e;--m3:#2f64b0;--m4:#5590e3;--m5:#9cc0f5;
+  --warn-bg:#352a12;--warn-ink:#f1d28f;--warn-line:#5e4a1d;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;padding-inline:20px;padding-block:0 64px}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:56px}
+header{padding-top:40px;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+h1{font-family:var(--display);font-stretch:78%;font-weight:800;font-size:clamp(34px,6vw,58px);line-height:1;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1 .num{color:var(--accent)}
+h2{font-family:var(--display);font-stretch:85%;font-weight:700;font-size:26px;line-height:1.15;margin:0;text-wrap:balance}
+h3{font-family:var(--display);font-stretch:90%;font-weight:600;font-size:17px;margin:0}
+p{margin:0;max-width:68ch}
+.lede{font-size:17px;color:var(--ink2)}
+.warn{background:var(--warn-bg);color:var(--warn-ink);border:1px solid var(--warn-line);border-radius:8px;padding:10px 14px;font-size:13.5px;max-width:none}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.kpi{background:var(--paper);padding:16px 18px;display:flex;flex-direction:column;gap:2px}
+.kpi b{font-family:var(--display);font-stretch:80%;font-weight:700;font-size:32px;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi span{font-size:13px;color:var(--ink2)}
+.kpi small{font-size:12px;color:var(--muted)}
+section{display:flex;flex-direction:column;gap:16px}
+.sec-head{display:flex;flex-direction:column;gap:6px;border-top:2px solid var(--ink);padding-top:14px}
+.sec-head .eyebrow{color:var(--accent)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:18px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{font:inherit;font-size:13px;border:0;background:var(--paper);color:var(--ink2);padding:6px 12px;cursor:pointer}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+button:focus-visible,th button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.bars{display:flex;flex-direction:column;gap:3px}
+.bar{display:grid;grid-template-columns:minmax(110px,190px) 1fr;gap:10px;align-items:center;font-size:13px}
+.bar .lb{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink2)}
+.bar .tr{position:relative;height:18px;display:flex;align-items:center;gap:6px}
+.bar .fill{height:14px;background:var(--accent);border-radius:0 3px 3px 0;min-width:3px}
+.bar.dim .fill{background:var(--gray-bar)}
+.bar.hl .lb{color:var(--ink);font-weight:600}
+.bar .v{font-family:var(--mono);font-size:12px;color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar .v i{font-style:normal;color:var(--muted)}
+.axis{display:grid;grid-template-columns:minmax(110px,190px) 1fr;gap:10px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.axis div{position:relative;height:14px}
+.axis span{position:absolute;transform:translateX(-50%)}
+.note{font-size:12.5px;color:var(--muted)}
+#map{width:100%;position:relative}
+#map svg{width:100%;height:auto;display:block}
+#map path{stroke:var(--paper);stroke-width:.6;cursor:pointer}
+#map path:hover{stroke:var(--ink);stroke-width:1.4}
+.b0{fill:var(--m0)}.b1{fill:var(--m1)}.b2{fill:var(--m2)}.b3{fill:var(--m3)}.b4{fill:var(--m4)}.b5{fill:var(--m5)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:10px;border-radius:2px;display:inline-block}
+.tip{position:absolute;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12.5px;padding:6px 9px;border-radius:6px;white-space:nowrap;transform:translate(-50%,-115%);opacity:0;transition:opacity .1s}
+.tip b{font-weight:600}
+.dumb{display:flex;flex-direction:column;gap:2px}
+.dr{display:grid;grid-template-columns:minmax(110px,170px) 1fr 74px;gap:10px;align-items:center;font-size:13px;height:22px}
+.dr .lb{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink2)}
+.dr .tr{position:relative;height:100%}
+.dr .ln{position:absolute;top:50%;height:2px;margin-top:-1px;background:var(--mid)}
+.dr .dot{position:absolute;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;border:2px solid var(--paper)}
+.dr .d22{background:var(--gray-bar)}.dr .d26{background:var(--accent)}
+.dr .dl{font-family:var(--mono);font-size:12px;text-align:right;font-variant-numeric:tabular-nums}
+.pos{color:var(--up)}.neg{color:var(--down)}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:560px}
+th,td{padding:7px 12px;text-align:left;border-bottom:1px solid var(--line)}
+th{font-weight:600;color:var(--ink2);background:var(--paper);position:sticky;top:0}
+th button{all:unset;cursor:pointer}
+th button::after{content:" ↕";color:var(--muted);font-size:11px}
+td.n,th.n{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+details summary{cursor:pointer;color:var(--accent-ink);font-weight:500;font-size:14px}
+details[open] summary{margin-bottom:12px}
+.cut{border-top:2px dashed var(--down);margin:6px 0 4px;position:relative}
+.cut span{position:absolute;right:0;top:-10px;background:var(--paper);padding:0 6px;font-size:11.5px;color:var(--down);font-family:var(--mono)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:12.5px;background:var(--paper);font-variant-numeric:tabular-nums}
+.chip.me{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+footer{font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:6px}
+footer a{color:var(--accent-ink)}
+@media (max-width:560px){.bar,.axis{grid-template-columns:96px 1fr}.dr{grid-template-columns:96px 1fr 60px}.kpi b{font-size:26px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Eleições 2026 · Pernambuco · Deputado federal · 1º turno, 04/10</div>
+  <h1>Izaias Regis <span class="num">5567</span></h1>
+  <p class="lede">Para onde foram os 11.673 votos do candidato do PSD: cidade por cidade, comparação com 2022, o mapa dentro de Garanhuns e a distância até uma vaga na Câmara.</p>
+  <p class="warn" id="aviso"></p>
+  <div class="kpis">
+    <div class="kpi"><span>Votos em Pernambuco</span><b>11.673</b><small>0,22% dos válidos · 62º lugar</small></div>
+    <div class="kpi"><span>Vieram de Garanhuns</span><b>71,9%</b><small>8.397 votos, 11,65% da cidade</small></div>
+    <div class="kpi"><span>Em 2022 (dep. estadual)</span><b>27.104</b><small>−57% de um pleito para o outro</small></div>
+    <div class="kpi"><span>Faltaram para se eleger</span><b>≈86.900</b><small>estimativa, ver seção 5</small></div>
+  </div>
+</header>
+
+<section id="mapa">
+  <div class="sec-head"><div class="eyebrow">1 · Mapa</div><h2>Os votos se concentram no Agreste Meridional</h2>
+  <p class="note">Cor pela quantidade de votos em cada município. Passe o mouse ou toque para ver os números. Fernando de Noronha (0 votos) não aparece no mapa.</p></div>
+  <div class="panel">
+    <div class="legend" id="legend"></div>
+    <div id="map"><div class="tip" id="tip"></div></div>
+  </div>
+</section>
+
+<section id="municipios">
+  <div class="sec-head"><div class="eyebrow">2 · Por município</div><h2>106 municípios deram ao menos um voto</h2>
+  <p class="note">Na escala logarítmica cada marca vale 10 vezes a anterior, o que deixa visíveis as cidades com 1 voto. O número ao lado de cada barra é o valor exato.</p></div>
+  <div class="panel" style="display:flex;flex-direction:column;gap:12px">
+    <div class="controls">
+      <div class="seg"><button id="mTop" aria-pressed="true">Top 20</button><button id="mAll" aria-pressed="false">Todos com voto (106)</button></div>
+      <div class="seg"><button id="sLog" aria-pressed="true">Logarítmica</button><button id="sLin" aria-pressed="false">Linear</button></div>
+    </div>
+    <div class="axis" id="munAxis"><span></span><div></div></div>
+    <div class="bars" id="munBars"></div>
+  </div>
+</section>
+
+<section id="comparacao">
+  <div class="sec-head"><div class="eyebrow">3 · 2022 × 2026</div><h2>Queda de 27.104 para 11.673 votos, puxada por Garanhuns</h2>
+  <p>Em 2022 ele foi eleito deputado estadual pelo PSDB (número 45678, eleito por média). Em 2026 disputou deputado federal pelo PSD. Como os cargos são diferentes, a comparação mostra onde o eleitorado dele se manteve, não um confronto direto.</p></div>
+  <div class="grid2">
+    <div class="panel" style="display:flex;flex-direction:column;gap:12px">
+      <h3>Garanhuns</h3>
+      <div class="dumb" id="dumbG"></div>
+      <h3 style="margin-top:8px">Demais cidades (as 24 maiores somando os dois anos)</h3>
+      <div class="legend"><span><i style="background:var(--gray-bar);border-radius:50%"></i>2022</span><span><i style="background:var(--accent);border-radius:50%"></i>2026</span><span>Coluna da direita: variação</span></div>
+      <div class="dumb" id="dumb"></div>
+    </div>
+    <div class="panel" style="display:flex;flex-direction:column;gap:14px">
+      <h3>Onde cresceu</h3><div class="chips" id="ganhos"></div>
+      <h3>Onde mais caiu</h3><div class="chips" id="perdas"></div>
+      <h3>Alcance</h3>
+      <p class="note" style="color:var(--ink2)" id="alcance"></p>
+      <details><summary>Tabela completa 2022 × 2026</summary><div class="tbl-wrap"><table id="tComp"></table></div></details>
+    </div>
+  </div>
+</section>
+
+<section id="garanhuns">
+  <div class="sec-head"><div class="eyebrow">4 · Garanhuns</div><h2>Na própria cidade, ficou em 2º, bem atrás de Felipe Carreras</h2>
+  <p>Ex-prefeito de Garanhuns, Izaias teve 11,65% dos válidos para deputado federal na cidade. Felipe Carreras (PSB) teve 38,1%. Dados por seção do TSE (292 seções, 44 locais de votação).</p></div>
+  <div class="grid2">
+    <div class="panel" style="display:flex;flex-direction:column;gap:10px">
+      <h3>Mais votados para deputado federal em Garanhuns</h3>
+      <div class="bars" id="garTop"></div>
+      <p class="note" id="garNote"></p>
+    </div>
+    <div class="panel" style="display:flex;flex-direction:column;gap:10px">
+      <h3>Por bairro do local de votação</h3>
+      <div class="bars" id="garBairro"></div>
+      <p class="note">Ao lado de cada barra: votos e o percentual dos válidos no bairro. Heliópolis concentra 38% dos votos dele na cidade.</p>
+    </div>
+  </div>
+  <div class="tbl-wrap" style="max-height:520px;overflow:auto"><table id="tLoc"></table></div>
+</section>
+
+<section id="psd">
+  <div class="sec-head"><div class="eyebrow">5 · Quanto faltou</div><h2>7º colocado na lista do PSD, que deve ficar com 2 vagas</h2>
+  <p>O TSE ainda não marcou os eleitos (a totalização está em reprocessamento). Recalculei a distribuição das 25 vagas com o quociente eleitoral do TSE (210.580) e as regras de sobras: partido com 80% do quociente e candidato com 20%. Pelo cálculo, o PSD fica com 2 cadeiras. Para ser eleito, Izaias precisaria de cerca de 86.900 votos a mais, o suficiente para passar Guilherme Uchoa Junior (98.569). Para o PSD conquistar uma 3ª cadeira, o partido precisaria de cerca de 87.700 votos a mais no total.</p></div>
+  <div class="grid2">
+    <div class="panel" style="display:flex;flex-direction:column;gap:6px">
+      <h3>Lista do PSD (12 mais votados)</h3>
+      <div class="bars" id="psdBars"></div>
+    </div>
+    <div class="panel" style="display:flex;flex-direction:column;gap:6px">
+      <h3>Vagas estimadas por partido ou federação</h3>
+      <div class="bars" id="seatBars"></div>
+      <p class="note">Estimativa própria a partir dos votos publicados. O resultado oficial é o que o TSE proclamar.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div id="fonte"></div>
+  <div>Fontes: <a href="https://resultados.tse.jus.br/oficial/ele2026/6259/dados/pe/pe-c0006-e006259-u.json">API de resultados do TSE</a> (votos por município), <a href="https://dadosabertos.tse.jus.br/">Portal de Dados Abertos do TSE</a> (votação por seção e locais de votação de 2026; votação por município de 2022). Contornos dos municípios: geodata-br (IBGE).</div>
+  <div style="color:var(--ink);font-weight:600;font-size:14px;margin-top:6px">Desenvolvido pelo Engenheiro de IA Léo Ansélmo</div>
+</footer>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script>
+const D=/*DATA*/;
+const GEO=/*GEO*/;
+const fmt=n=>Math.round(n).toLocaleString('pt-BR');
+const pct=p=>p.toFixed(2).replace('.',',')+'%';
+const title=s=>s.toLowerCase().replace(/(^|\s|-)(\S)/g,(m,a,b)=>a+b.toUpperCase()).replace(/\b(Da|De|Do|Dos|Das|E)\b/g,w=>w.toLowerCase());
+const $=id=>document.getElementById(id);
+
+$('aviso').textContent='Dados do TSE de '+D.meta.dg+' às '+D.meta.hg+'. O TSE marca a totalização com o aviso "'+D.meta.aviso+'". Os números ainda podem mudar e nenhum eleito foi proclamado.';
+$('fonte').textContent='Atualizado com dados do TSE de '+D.meta.dg+', '+D.meta.hg+'.';
+
+function bars(el,items,opt={}){
+  const max=opt.max||Math.max(...items.map(i=>i.v));
+  const log=opt.log, lo=0.7;
+  const w=v=>log?Math.max(0,Math.log10(v/lo)/Math.log10(max*1.15/lo))*100:v/max*100*0.86;
+  el.innerHTML=items.map(i=>(i.cut?'<div class="cut"><span>'+i.cut+'</span></div>':'')+
+    '<div class="bar'+(i.hl?' hl':'')+(i.dim?' dim':'')+'" title="'+i.lb+': '+fmt(i.v)+'"><div class="lb">'+i.lb+'</div><div class="tr"><div class="fill" style="width:'+w(i.v).toFixed(2)+'%"></div><div class="v">'+fmt(i.v)+(i.x?' <i>'+i.x+'</i>':'')+'</div></div></div>').join('');
+  return w;
+}
+
+/* mapa */
+const bins=[[1,9],[10,49],[50,199],[200,999],[1000,1e9]];
+const binOf=v=>!v?0:bins.findIndex(b=>v>=b[0]&&v<=b[1])+1;
+$('legend').innerHTML='<span><i class="b0" style="background:var(--m0)"></i>0</span>'+['1–9','10–49','50–199','200–999','1.000+'].map((t,k)=>'<span><i style="background:var(--m'+(k+1)+')"></i>'+t+'</span>').join('');
+(function(){
+  const W=900,H=330;
+  const FEAT=GEO.features.filter(f=>f.properties.id!=='2605459');
+  const proj=d3.geoIdentity().reflectY(true).fitSize([W,H],{type:'FeatureCollection',features:FEAT});
+  const path=d3.geoPath(proj);
+  const svg=d3.select('#map').append('svg').attr('viewBox','0 0 '+W+' '+H).attr('role','img').attr('aria-label','Mapa de Pernambuco com os votos de Izaias Regis por município');
+  const tip=$('tip');
+  svg.selectAll('path').data(FEAT).join('path').attr('d',path)
+    .attr('class',f=>{const m=D.mapa[f.properties.id];return 'b'+binOf(m?m[1]:0)})
+    .on('mousemove',(e,f)=>{const m=D.mapa[f.properties.id];const r=$('map').getBoundingClientRect();
+      tip.innerHTML='<b>'+f.properties.name+'</b> · '+(m&&m[1]?fmt(m[1])+(m[1]==1?' voto':' votos')+' · '+pct(m[2])+' dos válidos':'sem votos');
+      tip.style.left=(e.clientX-r.left)+'px';tip.style.top=(e.clientY-r.top)+'px';tip.style.opacity=1})
+    .on('mouseleave',()=>tip.style.opacity=0);
+})();
+
+/* municipios */
+let mm='top',ml=true;
+function drawMun(){
+  const r=(mm==='top'?D.mun.slice(0,20):D.mun).map(x=>({lb:title(x[0]),v:x[1],x:pct(x[2]),hl:x[0]==='GARANHUNS'}));
+  const max=D.mun[0][1];
+  const w=bars($('munBars'),r,{log:ml,max});
+  const ticks=ml?[1,10,100,1000,8397]:[0,2000,4000,6000,8000];
+  $('munAxis').children[1].innerHTML=ticks.map(t=>'<span style="left:'+(t?w(t):0)+'%">'+fmt(t)+'</span>').join('');
+  [['mTop',mm==='top'],['mAll',mm==='all'],['sLog',ml],['sLin',!ml]].forEach(([id,on])=>$(id).setAttribute('aria-pressed',on));
+}
+$('mTop').onclick=()=>{mm='top';drawMun()};$('mAll').onclick=()=>{mm='all';drawMun()};
+$('sLog').onclick=()=>{ml=true;drawMun()};$('sLin').onclick=()=>{ml=false;drawMun()};
+drawMun();
+
+/* comparacao */
+function dumb(el,rows,max){
+  el.innerHTML=rows.map(([m,a,b,d])=>{const x1=a/max*100,x2=b/max*100;
+    return '<div class="dr" title="'+title(m)+': '+fmt(a)+' em 2022, '+fmt(b)+' em 2026"><div class="lb">'+title(m)+'</div><div class="tr"><div class="ln" style="left:'+Math.min(x1,x2)+'%;width:'+Math.abs(x2-x1)+'%"></div><div class="dot d22" style="left:'+x1+'%"></div><div class="dot d26" style="left:'+x2+'%"></div></div><div class="dl '+(d>0?'pos':d<0?'neg':'')+'">'+(d>0?'+':d<0?'−':'')+fmt(Math.abs(d))+'</div></div>'}).join('');
+}
+const C=D.comp.comp;
+const g=C.find(r=>r[0]==='GARANHUNS');
+dumb($('dumbG'),[g],24000);
+$('dumbG').insertAdjacentHTML('beforeend','<p class="note">22.381 votos em 2022 · 8.397 em 2026 (−62%)</p>');
+const others=C.filter(r=>r[0]!=='GARANHUNS').slice(0,24);
+dumb($('dumb'),others,Math.max(...others.map(r=>Math.max(r[1],r[2])))*1.05);
+const chip=r=>'<span class="chip">'+title(r[0])+' <span class="'+(r[3]>0?'pos':'neg')+'">'+(r[3]>0?'+':'−')+fmt(Math.abs(r[3]))+'</span></span>';
+$('ganhos').innerHTML=[...C].sort((a,b)=>b[3]-a[3]).filter(r=>r[3]>0).slice(0,8).map(chip).join('');
+$('perdas').innerHTML=[...C].sort((a,b)=>a[3]-b[3]).slice(0,8).map(chip).join('');
+const n22=C.filter(r=>r[1]>0).length,n26=C.filter(r=>r[2]>0).length;
+$('alcance').textContent='Em 2022 teve voto em '+n22+' municípios; em 2026, em '+n26+'. Fora de Garanhuns, passou de '+fmt(D.comp.tot22-g[1])+' para '+fmt(11673-g[2])+' votos.';
+function table(el,cols,rows,sortIdx,desc=true){
+  let si=sortIdx,sd=desc;
+  function render(){
+    const rs=[...rows].sort((a,b)=>{const x=a[si],y=b[si];return (typeof x==='number'?x-y:String(x).localeCompare(String(y),'pt'))*(sd?-1:1)});
+    el.innerHTML='<thead><tr>'+cols.map((c,i)=>'<th class="'+(c.n?'n':'')+'" aria-sort="'+(i===si?(sd?'descending':'ascending'):'none')+'"><button data-i="'+i+'">'+c.t+'</button></th>').join('')+'</tr></thead><tbody>'+
+      rs.map(r=>'<tr>'+cols.map((c,i)=>'<td class="'+(c.n?'n':'')+'">'+(c.f?c.f(r[i],r):r[i])+'</td>').join('')+'</tr>').join('')+'</tbody>';
+    el.querySelectorAll('th button').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(i===si)sd=!sd;else{si=i;sd=cols[i].n}render()});
+  }
+  render();
+}
+table($('tComp'),[{t:'Município',f:title},{t:'2022',n:1,f:fmt},{t:'2026',n:1,f:fmt},{t:'Variação',n:1,f:v=>'<span class="'+(v>0?'pos':v<0?'neg':'')+'">'+(v>0?'+':v<0?'−':'')+fmt(Math.abs(v))+'</span>'}],C,1);
+
+/* garanhuns */
+const G=D.gar;
+const short=n=>{const p=n.split(' ');const suf=['NETO','FILHO','JUNIOR','JÚNIOR'].includes(p[p.length-1]);return title([p[0]].concat(p.slice(suf?-2:-1)).join(' '))};
+bars($('garTop'),G.top.map(t=>({lb:short(t.nm)+' '+t.n,v:t.v,x:pct(t.p),hl:t.n==='5567',dim:t.n!=='5567'})));
+$('garNote').textContent='Válidos para deputado federal na cidade: '+fmt(G.validos)+'. Brancos: '+fmt(G.brancos)+'. Nulos: '+fmt(G.nulos)+'.';
+bars($('garBairro'),G.bairros.map(b=>({lb:title(b[0]),v:b[1],x:pct(b[3])})));
+table($('tLoc'),[{t:'Local de votação',f:title},{t:'Bairro',f:title},{t:'Seções',n:1},{t:'Votos Izaias',n:1,f:fmt},{t:'Válidos',n:1,f:fmt},{t:'% válidos',n:1,f:pct}],G.locais.map(l=>[l.local,l.bairro,l.secoes,l.votos,l.validos,l.pct]),3);
+
+/* psd */
+const P=D.psd;
+bars($('psdBars'),P.map((c,i)=>({lb:(i+1)+'. '+title(c.nm),v:c.v,hl:c.n==='5567',dim:c.n!=='5567'&&i>=2,cut:i===2?'linha de corte estimada: 2 vagas':''})));
+bars($('seatBars'),D.seats.map(s=>({lb:s.nm,v:s.v,x:s.s+(s.s>1?' vagas':' vaga'),hl:s.nm==='PSD',dim:s.nm!=='PSD'})));
+</script>
